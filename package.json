@@ -1,0 +1,15 @@
+{
+  "name": "truist-identity-verification",
+  "version": "1.0.0",
+  "description": "Truist Bank identity verification with selfie and driver's license",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve"
+  },
+  "keywords": ["verification", "identity", "truist"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^14.0.1"
+  }
+}

@@ -1,0 +1,414 @@
+:root {
+    --truist-purple: #442582;
+    --truist-light-blue: #00A3E0;
+    --truist-dark-blue: #004B8D;
+    --truist-light-gray: #F2F2F2;
+    --truist-gray: #757575;
+    --truist-dark-gray: #333333;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Add margin top for spacing between elements */
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: #fafafa;
+    color: var(--truist-dark-gray);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    margin-bottom: 1rem;
+}
+
+.logo img {
+    height: 40px;
+}
+
+header h1 {
+    color: var(--truist-purple);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.verification-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 700px;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-header h2 {
+    color: var(--truist-purple);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    color: var(--truist-gray);
+}
+
+.verification-steps {
+    margin-bottom: 2.5rem;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.step-indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--truist-light-gray);
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid var(--truist-light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--truist-gray);
+    position: relative;
+    z-index: 2;
+    transition: var(--transition);
+}
+
+.step.active {
+    background-color: var(--truist-purple);
+    border-color: var(--truist-purple);
+    color: white;
+}
+
+.step.completed {
+    background-color: var(--truist-light-blue);
+    border-color: var(--truist-light-blue);
+    color: white;
+}
+
+.step-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.step-labels span {
+    font-size: 0.875rem;
+    color: var(--truist-gray);
+    width: 33.3%;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.step-labels span.active {
+    color: var(--truist-purple);
+    font-weight: 600;
+}
+
+.verification-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.verification-section.active {
+    display: block;
+    opacity: 1;
+}
+
+.verification-section h3 {
+    color: var(--truist-dark-blue);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.verification-section p {
+    margin-bottom: 1.5rem;
+    color: var(--truist-gray);
+}
+
+.upload-area {
+    border: 2px dashed var(--truist-light-gray);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 1.5rem;
+}
+
+.upload-area:hover {
+    border-color: var(--truist-light-blue);
+}
+
+.upload-area i {
+    font-size: 3rem;
+    color: var(--truist-gray);
+    margin-bottom: 1rem;
+}
+
+/* Camera styles for ID capture */
+.camera-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    background-color: #000;
+}
+
+.camera-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.camera-guide {
+    position: relative;
+    width: 90%;
+    height: 70%;
+}
+
+.id-guide {
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+.id-outline {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+
+.face-outline {
+    position: absolute;
+    width: 120px;
+    height: 140px;
+    left: calc(50% - 60px);
+    top: calc(50% - 70px);
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.3);
+}
+
+.email-input-group {
+    display: flex;
+    margin-top: 10px;
+}
+
+.email-input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--truist-light-gray);
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    cursor: pointer;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: var(--truist-purple);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #321c61;
+}
+
+.btn-primary:disabled {
+    background-color: var(--truist-gray);
+    cursor: not-allowed;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--truist-purple);
+    color: var(--truist-purple);
+}
+
+.btn-outline:hover {
+    background-color: var(--truist-purple);
+    color: white;
+}
+
+.btn-icon {
+    background-color: transparent;
+    color: var(--truist-gray);
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+}
+
+.btn-icon:hover {
+    color: var(--truist-dark-gray);
+}
+
+#verification-complete {
+    text-align: center;
+}
+
+.success-animation {
+    font-size: 5rem;
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.verification-info {
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: var(--truist-light-gray);
+    border-radius: 8px;
+    text-align: left;
+}
+
+.email-status {
+    font-style: italic;
+    color: var(--truist-dark-blue);
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--truist-gray);
+    font-size: 0.875rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.footer-links {
+    margin-top: 0.75rem;
+}
+
+.footer-links a {
+    color: var(--truist-dark-blue);
+    margin: 0 0.75rem;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .verification-card {
+        padding: 1.5rem;
+    }
+    
+    .step {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .step-labels span {
+        font-size: 0.75rem;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .camera-controls button {
+        width: 100%;
+    }
+    
+    .btn {
+        padding: 0.75rem 1rem;
+    }
+}
